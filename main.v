@@ -1,3 +1,10 @@
+import vweb
+
+struct App {
+	vweb.Context
+}
+
 fn main() {
-    println('Hellheim')
+	mut app := App{}
+	vweb.run(app, 8081)
 }
