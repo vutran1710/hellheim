@@ -1,1 +1,4 @@
 edition = "2021"
+imports_granularity = "Item"
+reorder_impl_items = true
+group_imports = "StdExternalCrate"
