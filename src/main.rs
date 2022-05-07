@@ -8,15 +8,25 @@ use tower::make::Shared;
 use tower::service_fn;
 use tower::ServiceBuilder;
 
-async fn hello_world(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    Ok(Response::new("Hello, World".into()))
+pub struct State {
+    pub counter: i32,
+}
+
+async fn respond(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    Ok(Response::new(format!("OK! State.counter = {}", 1).into()))
 }
 
 #[tokio::main]
 async fn main() {
     // TODO: use --port from env
+    let mut _state = State { counter: 1 };
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
-    let service = ServiceBuilder::new().service(service_fn(hello_world));
-    let server = Server::bind(&addr).serve(Shared::new(service));
+
+    let service = service_fn(respond);
+
+    let app = ServiceBuilder::new()
+        // Add many layers as needed here
+        .service(service);
+    let server = Server::bind(&addr).serve(Shared::new(app));
     server.await.expect("Server Error");
 }
