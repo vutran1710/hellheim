@@ -19,6 +19,7 @@ async fn respond(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
 #[tokio::main]
 async fn main() {
     // TODO: use --port from env
+    // passing state to service
     let mut _state = State { counter: 1 };
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
 
